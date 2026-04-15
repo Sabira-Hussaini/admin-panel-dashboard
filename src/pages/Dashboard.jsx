@@ -1,5 +1,16 @@
 import { useState, useEffect } from "react";
-import { DollarSign, Users, ShoppingCart, Eye, User, CreditCard, ShoppingCart as CartIcon, Database, AlertCircle } from "lucide-react";
+import {
+  DollarSign,
+  Users,
+  ShoppingCart,
+  Eye,
+  User,
+  CreditCard,
+  ShoppingCart as CartIcon,
+  Database,
+  AlertCircle
+} from "lucide-react";
+
 import StatsGrid from "./StatsGrid";
 import ChartSection from "./ChartSection";
 import TableSection from "./TableSection";
@@ -15,7 +26,6 @@ export default function Dashboard() {
   const [activity, setActivity] = useState(null);
 
   useEffect(() => {
-    // ---------- Stats ----------
     const statsData = {
       revenue: 124563,
       lastRevenue: 110000,
@@ -26,7 +36,9 @@ export default function Dashboard() {
       views: 45892,
       lastViews: 47000,
     };
-    const formatChange = (current, last) => `${current - last >= 0 ? "+" : ""}${(((current - last)/last)*100).toFixed(1)}%`;
+
+    const formatChange = (current, last) =>
+      `${current - last >= 0 ? "+" : ""}${(((current - last) / last) * 100).toFixed(1)}%`;
 
     setStats([
       {
@@ -71,7 +83,6 @@ export default function Dashboard() {
       },
     ]);
 
-    // ---------- Revenue Chart ----------
     setRevenueData([
       { month: "Jan", revenue: 45000, expenses: 32000 },
       { month: "Feb", revenue: 52000, expenses: 38000 },
@@ -83,7 +94,6 @@ export default function Dashboard() {
       { month: "Aug", revenue: 78000, expenses: 58000 },
     ]);
 
-    // ---------- Sales Chart ----------
     setSalesData([
       { name: "Electronics", value: 45, color: "#10b981" },
       { name: "Clothing", value: 30, color: "#3b82f6" },
@@ -91,21 +101,18 @@ export default function Dashboard() {
       { name: "Other", value: 10, color: "#8b5cf6" },
     ]);
 
-    // ---------- Orders ----------
     setOrders([
       { id: "#123", customer: "John Doe", amount: "$120", status: "Completed" },
       { id: "#124", customer: "Jane Smith", amount: "$250", status: "Pending" },
       { id: "#125", customer: "Alice Johnson", amount: "$500", status: "Cancelled" },
     ]);
 
-    // ---------- Top Products ----------
     setTopProducts([
       { name: 'MacBook Pro 16"', sales: "$2,987,530", growth: "+12%" },
       { name: "iPhone 15 Pro", sales: "$2,587,044", growth: "+8%" },
       { name: "AirPods Pro", sales: "$1,200,000", growth: "+5%" },
     ]);
 
-    // ---------- Activity Feed ----------
     setActivity([
       { icon: <User className="w-5 h-5 text-blue-500" />, title: "New user registered", description: "John Smith created an account", time: "2 minutes ago" },
       { icon: <CartIcon className="w-5 h-5 text-green-500" />, title: "New order received", description: "Order #3847 for $2,399", time: "5 minutes ago" },
@@ -116,12 +123,34 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="space-y-6 bg-white dark:bg-slate-800 text-slate-800 dark:text-white">
+    <div className="
+      min-h-screen
+      bg-white dark:bg-slate-800
+      text-slate-800 dark:text-white
+      p-4 sm:p-6 lg:p-8
+      space-y-4 sm:space-y-6
+    ">
+      
+      {/* Stats */}
       <StatsGrid data={stats} />
-      <ChartSection revenueData={revenueData} salesData={salesData} />
-      <TableSection orders={orders} />
-      <TopProducts products={topProducts} />
-      <ActivityFeed activity={activity} />
+
+      {/* Charts */}
+      <ChartSection
+        revenueData={revenueData}
+        salesData={salesData}
+      />
+
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <TableSection orders={orders} />
+      </div>
+
+      {/* Bottom section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <TopProducts products={topProducts} />
+        <ActivityFeed activities={activity} />
+      </div>
+
     </div>
   );
 }

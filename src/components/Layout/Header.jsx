@@ -8,60 +8,71 @@ import {
   Bell,
   Plus,
 } from "lucide-react";
-  import { useAppStore } from "../../store/useAppStore";
+
+import { useAppStore } from "../../store/useAppStore";
 
 export default function Header({
   setSideBarCollapsed,
   user,
-
-
 }) {
   const [openProfile, setOpenProfile] = useState(false);
 
+  const { darkMode, toggleDarkMode, searchTerm, setSearchTerm } =
+    useAppStore();
 
-
-const { darkMode, toggleDarkMode, searchTerm, setSearchTerm } = useAppStore();
-
-  // ================= DARK MODE SYNC =================
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
   return (
-    <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-6 py-3 flex items-center justify-between">
-
-      {/* ================= LEFT SIDE ================= */}
-      <div className="flex items-center gap-4">
-
+    <header className="
+      bg-white dark:bg-slate-900 
+      border-b border-slate-200 dark:border-slate-700 
+      px-3 sm:px-6 py-3 
+      flex items-center justify-between gap-2
+    ">
+      
+      {/* LEFT */}
+      <div className="flex items-center gap-2 sm:gap-4">
         <button
-          onClick={() => setSideBarCollapsed(prev => !prev)}
+          onClick={() => setSideBarCollapsed((prev) => !prev)}
           className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        <h1 className="font-bold text-lg">Admin Panel</h1>
+        <h1 className="font-bold text-base sm:text-lg whitespace-nowrap">
+          Admin Panel
+        </h1>
       </div>
 
-      {/* ================= CENTER SEARCH ================= */}
-      <div className="hidden md:block flex-1 max-w-xl mx-6 relative">
-
+      {/* SEARCH */}
+      <div className="hidden md:flex flex-1 max-w-xl mx-4 relative">
         <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
 
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search users, orders, messages..."
-          className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 outline-none text-sm"
+          className="
+            w-full pl-10 pr-4 py-2 
+            rounded-xl 
+            bg-slate-100 dark:bg-slate-800 
+            outline-none text-sm
+          "
         />
-
       </div>
 
-      {/* ================= RIGHT SIDE ================= */}
-      <div className="flex items-center gap-3">
+      {/* RIGHT */}
+      <div className="flex items-center gap-1 sm:gap-3">
 
-        {/* ADD BUTTON */}
-        <button className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+        {/* NEW BUTTON */}
+        <button className="
+          hidden lg:flex items-center gap-2 
+          px-3 py-2 rounded-xl 
+          bg-gradient-to-r from-blue-500 to-purple-600 
+          text-white
+        ">
           <Plus className="w-4 h-4" />
           New
         </button>
@@ -74,25 +85,33 @@ const { darkMode, toggleDarkMode, searchTerm, setSearchTerm } = useAppStore();
 
         {/* DARK MODE */}
         <button
-        onClick={toggleDarkMode}
+          onClick={toggleDarkMode}
           className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
         >
-          {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          {darkMode ? (
+            <Sun className="w-5 h-5" />
+          ) : (
+            <Moon className="w-5 h-5" />
+          )}
         </button>
 
         {/* PROFILE */}
         <div className="relative">
 
           <div
-            onClick={() => setOpenProfile(prev => !prev)}
-            className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+            onClick={() => setOpenProfile((prev) => !prev)}
+            className="
+              flex items-center gap-2 
+              cursor-pointer px-2 py-1 
+              rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800
+            "
           >
             <img
               src={user?.avatar}
-              className="w-8 h-8 rounded-full object-cover"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover"
             />
 
-            <div className="hidden md:block">
+            <div className="hidden md:block leading-tight">
               <p className="text-sm font-medium">{user?.name}</p>
               <p className="text-xs text-slate-500">{user?.role}</p>
             </div>
@@ -100,10 +119,17 @@ const { darkMode, toggleDarkMode, searchTerm, setSearchTerm } = useAppStore();
             <ChevronDown className="w-4 h-4" />
           </div>
 
-          {/* ================= PROFILE DROPDOWN ================= */}
+          {/* DROPDOWN */}
           {openProfile && (
-            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg overflow-hidden">
-
+            <div className="
+              absolute right-0 mt-2 
+              w-44 sm:w-48 
+              bg-white dark:bg-slate-900 
+              border border-slate-200 dark:border-slate-700 
+              rounded-xl shadow-lg overflow-hidden
+              z-50
+            ">
+              
               <div className="p-3 border-b border-slate-200 dark:border-slate-700">
                 <p className="text-sm font-medium">{user?.name}</p>
                 <p className="text-xs text-slate-500">{user?.role}</p>
@@ -125,7 +151,6 @@ const { darkMode, toggleDarkMode, searchTerm, setSearchTerm } = useAppStore();
           )}
 
         </div>
-
       </div>
     </header>
   );
