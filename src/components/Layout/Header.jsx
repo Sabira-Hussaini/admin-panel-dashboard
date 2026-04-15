@@ -106,10 +106,14 @@ export default function Header({
               rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800
             "
           >
-            <img
-              src={user?.avatar}
-              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover"
-            />
+           <img
+  src={user?.avatar || "/avatar.png"}
+  alt="profile"
+  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover"
+  onError={(e) => {
+    e.target.src = "/avatar.png";
+  }}
+/>
 
             <div className="hidden md:block leading-tight">
               <p className="text-sm font-medium">{user?.name}</p>
